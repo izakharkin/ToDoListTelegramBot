@@ -51,13 +51,15 @@ class DBMS:
     def insert(self, chat_id, name, date, time):
         event_id = self.ID
         self.ID += 1
-        self.db[(chat_id, event_id)] = self.Entry([name, date, time])
+        self.db[chat_id][event_id] = self.Entry([name, date, time])
 
     def remove(self, chat_id, event_id):
         removed_value = self.db.pop((chat_id, event_id))  # can be used
         self.ID -= 1
 
     def get_all_todos(self, chat_id):
+        events = [entry for entry in self.db[chat_id]]
+        return '\n'.join(sorted([]))
 
 
 dbms = DBMS()
@@ -91,10 +93,6 @@ class TooMuchDateArgumentsException(Exception):
 class TooMuchTimeArgumentsException(Exception):
     def __init__(self):
         super.__init__()
-
-
-class Reminder:
-    
 
 
 class DateType:
