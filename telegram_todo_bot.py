@@ -59,7 +59,7 @@ class DBMS:
 
     def get_all_todos(self, chat_id):
         events = [entry for entry in self.db[chat_id]]
-        return '\n'.join(sorted([]))
+        return '\n'.join(events)
 
 
 dbms = DBMS()
