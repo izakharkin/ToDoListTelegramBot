@@ -14,8 +14,8 @@ class WrongIdException(Exception):
 
 class Parser:
     @staticmethod
-    def parse_event(self, event_string):
-        tokens = event_string.split(' ')
+    def parse_event(event_string):
+        tokens = event_string.split(' ')[1:]
 
         if (len(tokens) < 2):
             raise TooFewParseArgumentsException()
@@ -27,6 +27,6 @@ class Parser:
         return name, date, time
 
     @staticmethod
-    def parse_id(self, event_id):
-        tokens = int(event_id)
-        return tokens[0]
+    def parse_id(event_id):
+        token = int(event_id)
+        return token

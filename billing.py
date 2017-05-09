@@ -19,12 +19,13 @@ class DBMS:
             self.time = list_of_fields[2]
 
         def __str__(self):
-            return ' '.join([self.name, self.date, self.time])
+            return ' '.join([self.name, str(self.date), str(self.time)])
 
     def insert(self, chat_id, name, date, time_):
         event_id = self.ID
         self.ID += 1
         self.db[chat_id][event_id] = self.Entry([name, date, time_])
+        return event_id
 
     def remove(self, chat_id, event_id):
         if len(self.db) == 0:
@@ -36,5 +37,5 @@ class DBMS:
     def get_all_events(self, chat_id):
         events = []
         if len(self.db) != 0:
-            events = [entry for entry in self.db[chat_id]]
+            events = [str(self.db[chat_id][entry_id]) for entry_id in self.db[chat_id].keys()]
         return '\n'.join(events)

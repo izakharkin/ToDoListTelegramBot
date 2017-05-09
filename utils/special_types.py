@@ -1,5 +1,5 @@
 import datetime
-
+import re
 
 class TooMuchDateArgumentsException(Exception):
     def __init__(self):
@@ -13,7 +13,7 @@ class DateType:
         month = now.month
         year = now.year
 
-        tokens = date_string.split('.\/')
+        tokens = re.split('[.\/]', date_string)
 
         if len(tokens) > 3:
             raise TooMuchDateArgumentsException()
@@ -34,7 +34,7 @@ class DateType:
         self.year = year
 
     def __str__(self):
-        return '.'.join([self.day, self.month, self.year])
+        return '.'.join([str(self.day), str(self.month), str(self.year)])
 
 
 class TooMuchTimeArgumentsException(Exception):
@@ -47,7 +47,7 @@ class TimeType:
         hour = 0
         minute = 0
 
-        tokens = time_string.split(':')
+        tokens = re.split(':', time_string)
 
         if len(tokens) > 2:
             raise TooMuchTimeArgumentsException()
@@ -61,3 +61,6 @@ class TimeType:
 
         self.hour = hour
         self.minute = minute
+
+    def __str__(self):
+        return ':'.join([str(self.hour), str(self.minute)])
