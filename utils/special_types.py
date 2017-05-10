@@ -1,6 +1,7 @@
 import datetime
 import re
 
+
 class TooMuchDateArgumentsException(Exception):
     def __init__(self):
         super().__init__()
@@ -64,3 +65,7 @@ class TimeType:
 
     def __str__(self):
         return ':'.join([str(self.hour), str(self.minute)])
+
+    @staticmethod
+    def is_time_string(string):
+        return ':' in string

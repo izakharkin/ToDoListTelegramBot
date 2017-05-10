@@ -1,0 +1,22 @@
+2017-05-11 00:40:45.627 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-11 00:42:00.15 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=1
+2017-05-11 00:59:28.378 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Wrong event parameters. Type /help for format information.
+2017-05-11 01:00:07.377 INFO in 'telegram_todo_bot' at line 102: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
+2017-05-11 01:01:22.304 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Wrong event parameters. Type /help for format information.
+2017-05-11 01:03:09.546 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Wrong event parameters. Type /help for format information.
+2017-05-11 01:05:54.998 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-11 01:07:38.409 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=1
+2017-05-11 01:08:56.330 INFO in 'telegram_todo_bot' at line 102: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
+2017-05-11 01:13:16.595 INFO in 'telegram_todo_bot' at line 102: /remove called in chat_id=283032492, message: TODO with ID=0 succssfully removed
+2017-05-11 01:18:39.414 INFO in 'telegram_todo_bot' at line 58: bot started in chat_id=169813842
+2017-05-11 01:20:32.648 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Wrong event parameters. Type /help for format information.
+2017-05-11 01:22:38.283 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=0
+2017-05-11 01:23:28.52 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=1
+2017-05-11 01:23:49.930 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=2
+2017-05-11 01:25:09.418 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=3
+2017-05-11 01:27:26.26 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=4
+2017-05-11 01:27:50.97 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=5
+2017-05-11 01:27:54.93 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=6
+2017-05-11 01:28:08.425 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=7
+2017-05-11 01:29:39.968 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=8
+2017-05-11 01:29:47.890 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=9

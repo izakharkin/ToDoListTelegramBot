@@ -6,7 +6,7 @@ class TooFewParseArgumentsException(Exception):
         super.__init__()
 
 
-# TODO: raise when wronf ID entered (with chars or not existing)
+# TODO: raise when wrong ID entered (with chars or not existing)
 class WrongIdException(Exception):
     def __init__(self):
         super.__init__()
@@ -20,13 +20,17 @@ class Parser:
         if (len(tokens) < 2):
             raise TooFewParseArgumentsException()
 
-        name = ' '.join(tokens[:-2])
-        date = DateType(tokens[-2])
-        time = TimeType(tokens[-1])
+        with_time =  TimeType.is_time_string(tokens[-1])
+
+        name = ' '.join(tokens[:(-2 if with_time else -1)])  # match the name
+        date = DateType(tokens[(-2 if with_time else -1)])
+        time = TimeType((tokens[-1] if with_time else '00:00'))
 
         return name, date, time
 
     @staticmethod
-    def parse_id(event_id):
-        token = int(event_id)
-        return token
+    def parse_id(event_id_text):
+        tokens = event_id_text.split(' ')[1:]
+        if len(tokens) > 1:
+            raise WrongIdException()
+        return int(tokens[0])

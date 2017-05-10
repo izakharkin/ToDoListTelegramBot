@@ -53,8 +53,8 @@ dbms = billing.DBMS()
 # ================== COMMANDS ==================
 
 def start(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text="I'm a TODOList Bot, please talk to me!")
+    start_text = HELP_INFO
+    bot.sendMessage(chat_id=update.message.chat_id, text=start_text)
     log.info('bot started in chat_id={}'.format(update.message.chat_id))
 
 
@@ -66,38 +66,40 @@ def echo(bot, update):
 
 def help(bot, update):
     help_text = HELP_INFO
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text=help_text)
+    bot.sendMessage(chat_id=update.message.chat_id, text=help_text)
     log.debug('/help called in chat_id={}'.format(update.message.chat_id))
 
 
 def add_event(chat_id, event_string):
-    try:
-        name, date, time_ = Parser.parse_event(event_string)
-        event_id = dbms.insert(chat_id, name, date, time_)
-    except Exception:
-        return 'Wrong /add arguments! Type /help for format information'
-    return 'Your TODO is added with ID={}'.format(event_id)
+    name, date, time_ = Parser.parse_event(event_string)
+    event_id = dbms.insert(chat_id, name, date, time_)
+    return event_id
 
 
 def add(bot, update):
-    msg_text = add_event(update.message.chat_id, update.message.text)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text=msg_text)
+    try:
+        event_id = add_event(update.message.chat_id, update.message.text)
+        msg_text = 'Your TODO is added with ID={}'.format(event_id)
+    except Exception:
+        msg_text = 'Wrong event parameters. Type /help for format information.'
+    bot.sendMessage(chat_id=update.message.chat_id, text=msg_text)
     log.info('/add called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
 
 
 def remove_event(chat_id, event_id):
     parsed_event_id = Parser.parse_id(event_id)
-    return dbms.remove(chat_id, parsed_event_id)
+    removed_id =  dbms.remove(chat_id, parsed_event_id)
+    return removed_id
 
 
 def remove(bot, update):
-    removed_id = remove_event(update.message.chat_id, update.message.text)
-    success_text = 'TODO with ID={} successfully removed'.format(removed_id)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text=success_text)
-    log.info('TODO with ID={} removed in chat_id={}'.format(removed_id, update.message.chat_id))
+    try:
+        removed_id = remove_event(update.message.chat_id, update.message.text)
+        msg_text = 'TODO with ID={} succssfully removed'.format(removed_id)
+    except Exception:
+        msg_text = 'Wrong ID or event with this ID doesn`t exist. Type /show for events list.'
+    bot.sendMessage(chat_id=update.message.chat_id, text=msg_text)
+    log.info('/remove called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
 
 
 def show(bot, update):
@@ -106,8 +108,7 @@ def show(bot, update):
     if events_text != '':
         pretext = 'All your TODO`s:\n'
     msg_text = pretext + events_text
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text=msg_text)
+    bot.sendMessage(chat_id=update.message.chat_id, text=msg_text)
     log.debug('/show called in chat_id={}'.format(update.message.chat_id))
 
 
