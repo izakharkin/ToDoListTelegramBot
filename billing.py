@@ -1,4 +1,6 @@
 from collections import defaultdict
+import weakref
+import pickle
 
 
 class DBMS:
@@ -7,10 +9,16 @@ class DBMS:
     """
 
     ID = 0
+    DB_FILENAME = 'common_database.pickle'
 
     def __init__(self):
-        # baseline: collections.defaultdict(dict)
-        self.db = defaultdict(dict)
+        try:
+            with open(self.DB_FILENAME, 'rb') as dbfile:
+                database = pickle.load(dbfile)
+        except Exception:
+            database = defaultdict(dict)
+        self.db = database
+        self._finalizer = weakref.finalize(self, self.dump)  # trying to do it in a proper way..
 
     class Entry:
         def __init__(self, list_of_fields):
@@ -39,5 +47,10 @@ class DBMS:
         events = []
         id_text = '(ID={}) '
         if len(self.db) != 0:
-            events = [id_text.format(entry_id) + str(self.db[chat_id][entry_id]) for entry_id in self.db[chat_id].keys()]  # !!!
+            events = [id_text.format(entry_id) + str(self.db[chat_id][entry_id]) for entry_id in
+                      self.db[chat_id].keys()]  # !!!
         return '\n'.join(events)
+
+    def dump(self):
+        with open(self.DB_FILENAME, 'wb') as dbfile:
+            pickle.dump(self.db, dbfile)
