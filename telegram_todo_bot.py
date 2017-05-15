@@ -1,13 +1,12 @@
-import collections
+import logging, logging.config
+import random
+
 from telegram.ext import MessageHandler, Filters
 from telegram.ext import CommandHandler
 from telegram.ext import Updater
 
-import logging, logging.config
-import random
-# import peewee
-
-import billing
+from billing import DBMS
+from tracker import Tracker
 from utils.parser import Parser
 
 # ================ GETTING UPDATER AND DISPATCHER =============
@@ -47,7 +46,13 @@ XKCD_MAX_COMICS_NUMBER = 1833
 
 # ================ DATA STORAGE CONFIGURATION =============
 
-dbms = billing.DBMS()
+dbms = DBMS()
+
+# ==================== NOTIFICATION SYSTEM ===================
+
+# это должен делать отдельный поток
+
+notifier = Tracker()
 
 
 # ================== COMMANDS ==================
@@ -73,6 +78,7 @@ def help(bot, update):
 def add_event(chat_id, event_string):
     name, date, time_ = Parser.parse_event(event_string)
     event_id = dbms.insert(chat_id, name, date, time_)
+    # notifier.insert_event(date, time_, chat_id, event_id)
     return event_id
 
 
@@ -88,7 +94,7 @@ def add(bot, update):
 
 def remove_event(chat_id, event_id):
     parsed_event_id = Parser.parse_id(event_id)
-    removed_id =  dbms.remove(chat_id, parsed_event_id)
+    removed_id = dbms.remove(chat_id, parsed_event_id)
     return removed_id
 
 
@@ -122,32 +128,11 @@ def joke(bot, update):
     log.debug('/joke called in chat_id={}'.format(update.message.chat_id))
 
 
-# ==================== REMINDER SECTION ===================
+# ==================== ADDING HANDLERS =================
 
-# это должен делать отдельный поток
-#
-# class Reminder: # Singleton
-#     def __init__(self, events_dict=collections.OrderedDict()):
-#         self.events_queue = events_dict # ordered by ((1)date, (2)time)
-#
-#     def insert_event(self, event_date, event_time, event_chat_id, event_id):
-#         self.events_queue[(event_date, event_time)] = (event_chat_id, event_id)
-#
-#     def start_tracking(self):
-#         while True:
-#             current = self.events_queue.front()
-#             current_date = datetime.GET_DATE
-#             current_time = time.GET_TIME
-#
-
-
-# ==================== ADDING HANDLERS ==============
-
-# TODO: send messages about deadlines befor 5, 3, 1 days and before 12 hours, 6 hours, 3 hours, 1 hour, 30 minutes..
-# TODO: ..according to the 'importance level'
+# TODO: /clear - delete old TODO's
 # TODO: make buttons when add, remove; help button
 # TODO: make scrollable list of events when /show
-# TODO: Do I need a MySQL DB?
 # TODO: deploy on Heroku (when all is ready)
 
 start_handler = CommandHandler('start', start)

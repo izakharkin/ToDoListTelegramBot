@@ -2,8 +2,9 @@ from collections import defaultdict
 import weakref
 import pickle
 
+from utils.singleton import Singleton
 
-class DBMS:
+class DBMS(metaclass=Singleton):
     """
     Database Management System class - to add and remove users data
     """
