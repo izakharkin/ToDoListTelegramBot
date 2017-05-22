@@ -10,6 +10,7 @@ class EmptyStorageException(Exception):
     def __init__(self):
         super().__init__()
 
+
 class DBMS(metaclass=Singleton):
     """
     Database Management System class - to add and remove users data

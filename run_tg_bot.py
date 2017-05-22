@@ -18,6 +18,7 @@ from utils.special_types import TooMuchTimeArgumentsException
 # ================ GETTING UPDATER AND DISPATCHER =============
 
 
+updater = Updater(token='')
 dispatcher = updater.dispatcher
 
 # ================ LOGGER CONFIGURATION =================
