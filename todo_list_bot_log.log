@@ -1,22 +1,69 @@
-2017-05-11 00:40:45.627 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=0
-2017-05-11 00:42:00.15 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=1
-2017-05-11 00:59:28.378 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Wrong event parameters. Type /help for format information.
-2017-05-11 01:00:07.377 INFO in 'telegram_todo_bot' at line 102: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
-2017-05-11 01:01:22.304 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Wrong event parameters. Type /help for format information.
-2017-05-11 01:03:09.546 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Wrong event parameters. Type /help for format information.
-2017-05-11 01:05:54.998 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=0
-2017-05-11 01:07:38.409 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=283032492, message: Your TODO is added with ID=1
-2017-05-11 01:08:56.330 INFO in 'telegram_todo_bot' at line 102: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
-2017-05-11 01:13:16.595 INFO in 'telegram_todo_bot' at line 102: /remove called in chat_id=283032492, message: TODO with ID=0 succssfully removed
-2017-05-11 01:18:39.414 INFO in 'telegram_todo_bot' at line 58: bot started in chat_id=169813842
-2017-05-11 01:20:32.648 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Wrong event parameters. Type /help for format information.
-2017-05-11 01:22:38.283 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=0
-2017-05-11 01:23:28.52 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=1
-2017-05-11 01:23:49.930 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=2
-2017-05-11 01:25:09.418 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=3
-2017-05-11 01:27:26.26 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=4
-2017-05-11 01:27:50.97 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=5
-2017-05-11 01:27:54.93 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=6
-2017-05-11 01:28:08.425 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=7
-2017-05-11 01:29:39.968 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=8
-2017-05-11 01:29:47.890 INFO in 'telegram_todo_bot' at line 86: /add called in chat_id=169813842, message: Your TODO is added with ID=9
+2017-05-15 20:19:50.373 INFO in 'telegram_todo_bot' at line 92: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-15 20:19:58.677 INFO in 'telegram_todo_bot' at line 109: /remove called in chat_id=283032492, message: TODO with ID=0 succssfully removed
+2017-05-22 16:48:10.660 INFO in 'telegram_todo_bot' at line 105: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 16:57:36.866 ERROR in 'telegram_todo_bot' at line 122: /remove called in chat_id=283032492, message: You have no TODO`s yet. Type /help for commands info.
+Traceback (most recent call last):
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 118, in remove
+    removed_id = remove_event(update.message.chat_id, update.message.text)
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 111, in remove_event
+    removed_id = dbms.remove(chat_id, parsed_event_id)
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\billing.py", line 46, in remove
+    raise EmptyStorageException()
+billing.EmptyStorageException
+2017-05-22 16:57:37.91 INFO in 'telegram_todo_bot' at line 130: /remove called in chat_id=283032492, message: You have no TODO`s yet. Type /help for commands info.
+2017-05-22 17:01:37.612 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:01:59.144 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=1
+2017-05-22 17:03:06.764 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:05:06.77 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:05:34.927 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:06:38.249 ERROR in 'telegram_todo_bot' at line 122: /remove called in chat_id=283032492, message: You have no TODO`s yet. Type /help for commands info.
+Traceback (most recent call last):
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 118, in remove
+    removed_id = remove_event(update.message.chat_id, update.message.text)
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 111, in remove_event
+    removed_id = dbms.remove(chat_id, parsed_event_id)
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\billing.py", line 46, in remove
+    raise EmptyStorageException()
+billing.EmptyStorageException
+2017-05-22 17:06:38.456 INFO in 'telegram_todo_bot' at line 130: /remove called in chat_id=283032492, message: You have no TODO`s yet. Type /help for commands info.
+2017-05-22 17:06:44.451 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:06:46.717 ERROR in 'telegram_todo_bot' at line 128: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
+Traceback (most recent call last):
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\billing.py", line 48, in remove
+    ret_value = self.db[chat_id].pop(event_id)
+KeyError: 77
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 118, in remove
+    removed_id = remove_event(update.message.chat_id, update.message.text)
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 111, in remove_event
+    removed_id = dbms.remove(chat_id, parsed_event_id)
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\billing.py", line 50, in remove
+    raise WrongIdException()
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\utils\parser.py", line 11, in __init__
+    super.__init__()
+TypeError: descriptor '__init__' of 'super' object needs an argument
+2017-05-22 17:06:46.778 INFO in 'telegram_todo_bot' at line 130: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
+2017-05-22 17:07:50.946 INFO in 'telegram_todo_bot' at line 106: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:07:55.298 ERROR in 'telegram_todo_bot' at line 128: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
+Traceback (most recent call last):
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\billing.py", line 48, in remove
+    ret_value = self.db[chat_id].pop(event_id)
+KeyError: 20
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 118, in remove
+    removed_id = remove_event(update.message.chat_id, update.message.text)
+  File "C:/Users/Илья/YandexDisk/PROGRAMMING/Repos/GitHub/TODOListBot/telegram_todo_bot.py", line 111, in remove_event
+    removed_id = dbms.remove(chat_id, parsed_event_id)
+  File "C:\Users\Илья\YandexDisk\PROGRAMMING\Repos\GitHub\TODOListBot\billing.py", line 50, in remove
+    raise WrongIdException()
+utils.parser.WrongIdException
+2017-05-22 17:07:55.361 INFO in 'telegram_todo_bot' at line 130: /remove called in chat_id=283032492, message: Wrong ID or event with this ID doesn`t exist. Type /show for events list.
+2017-05-22 17:07:59.581 INFO in 'telegram_todo_bot' at line 130: /remove called in chat_id=283032492, message: TODO with ID=0 succssfully removed
+2017-05-22 17:30:00.642 INFO in 'telegram_todo_bot' at line 145: /add called in chat_id=283032492, message: Your TODO is added with ID=0
+2017-05-22 17:31:09.548 INFO in 'telegram_todo_bot' at line 145: /add called in chat_id=283032492, message: Your TODO is added with ID=0
