@@ -3,13 +3,12 @@ from utils.special_types import DateType, TimeType
 
 class TooFewParseArgumentsException(Exception):
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
 
-# TODO: raise when wrong ID entered (with chars or not existing)
 class WrongIdException(Exception):
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
 
 class Parser:
@@ -20,7 +19,7 @@ class Parser:
         if (len(tokens) < 2):
             raise TooFewParseArgumentsException()
 
-        with_time =  TimeType.is_time_string(tokens[-1])
+        with_time = TimeType.is_time_string(tokens[-1])
 
         name = ' '.join(tokens[:(-2 if with_time else -1)])  # match the name
         date = DateType(tokens[(-2 if with_time else -1)])

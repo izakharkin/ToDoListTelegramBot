@@ -1,18 +1,23 @@
-import collections
-from telegram.ext import MessageHandler, Filters
+import logging.config
+import random
+
 from telegram.ext import CommandHandler
 from telegram.ext import Updater
 
-import logging, logging.config
-import random
-# import peewee
+from components.billing import DBMS
+from components.parser import Parser
+from components.tracker import Tracker
+from components.repeated_timer import RepeatedTimer
 
-import billing
-from utils.parser import Parser
+from components.billing import EmptyStorageException
+from components.parser import TooFewParseArgumentsException
+from components.parser import WrongIdException
+from utils.special_types import TooMuchDateArgumentsException
+from utils.special_types import TooMuchTimeArgumentsException
 
 # ================ GETTING UPDATER AND DISPATCHER =============
 
-updater = Updater(token='345673297:AAEkO7V3iWAGUUiGLHJHtx3_EOARHCQRpc0')
+
 dispatcher = updater.dispatcher
 
 # ================ LOGGER CONFIGURATION =================
@@ -47,7 +52,17 @@ XKCD_MAX_COMICS_NUMBER = 1833
 
 # ================ DATA STORAGE CONFIGURATION =============
 
-dbms = billing.DBMS()
+dbms = DBMS()
+
+# ================= DUMPING SCHEDULER CONFIGURATION ==================
+
+rt = RepeatedTimer(60, dbms.dump)  # dumping every minute
+
+# ==================== NOTIFICATION SYSTEM ===================
+
+# это должен делать отдельный поток
+
+notifier = Tracker()
 
 
 # ================== COMMANDS ==================
@@ -73,6 +88,7 @@ def help(bot, update):
 def add_event(chat_id, event_string):
     name, date, time_ = Parser.parse_event(event_string)
     event_id = dbms.insert(chat_id, name, date, time_)
+    # notifier.insert_event(date, time_, chat_id, event_id)
     return event_id
 
 
@@ -80,15 +96,23 @@ def add(bot, update):
     try:
         event_id = add_event(update.message.chat_id, update.message.text)
         msg_text = 'Your TODO is added with ID={}'.format(event_id)
-    except Exception:
-        msg_text = 'Wrong event parameters. Type /help for format information.'
+    except TooFewParseArgumentsException:
+        msg_text = 'Wrong format of date or time. Type /help for format information.'
+        log.exception('/add called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
+    except TooMuchDateArgumentsException:
+        msg_text = 'Wrong date entered. Type /help for format information.'
+        log.exception('/add called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
+    except TooMuchTimeArgumentsException:
+        msg_text = 'Wrong time entered. Type /help for format information.'
+        log.exception('/add called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
     bot.sendMessage(chat_id=update.message.chat_id, text=msg_text)
     log.info('/add called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
 
 
 def remove_event(chat_id, event_id):
     parsed_event_id = Parser.parse_id(event_id)
-    removed_id =  dbms.remove(chat_id, parsed_event_id)
+    removed_id = dbms.remove(chat_id, parsed_event_id)
+    # notifier.remove_event(chat_id, event_id)
     return removed_id
 
 
@@ -96,8 +120,15 @@ def remove(bot, update):
     try:
         removed_id = remove_event(update.message.chat_id, update.message.text)
         msg_text = 'TODO with ID={} succssfully removed'.format(removed_id)
-    except Exception:
+    except EmptyStorageException:
+        msg_text = 'You have no TODO`s yet. Type /help for commands info.'
+        log.exception('/remove called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
+    except TooFewParseArgumentsException:
+        msg_text = 'Please, enter the ID of event. Type /help for format information.'
+        log.exception('/remove called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
+    except WrongIdException:
         msg_text = 'Wrong ID or event with this ID doesn`t exist. Type /show for events list.'
+        log.exception('/remove called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
     bot.sendMessage(chat_id=update.message.chat_id, text=msg_text)
     log.info('/remove called in chat_id={}, message: {}'.format(update.message.chat_id, msg_text))
 
@@ -122,39 +153,20 @@ def joke(bot, update):
     log.debug('/joke called in chat_id={}'.format(update.message.chat_id))
 
 
-# ==================== REMINDER SECTION ===================
+# ==================== ADDING HANDLERS =================
 
-# это должен делать отдельный поток
-#
-# class Reminder: # Singleton
-#     def __init__(self, events_dict=collections.OrderedDict()):
-#         self.events_queue = events_dict # ordered by ((1)date, (2)time)
-#
-#     def insert_event(self, event_date, event_time, event_chat_id, event_id):
-#         self.events_queue[(event_date, event_time)] = (event_chat_id, event_id)
-#
-#     def start_tracking(self):
-#         while True:
-#             current = self.events_queue.front()
-#             current_date = datetime.GET_DATE
-#             current_time = time.GET_TIME
-#
-
-
-# ==================== ADDING HANDLERS ==============
-
-# TODO: send messages about deadlines befor 5, 3, 1 days and before 12 hours, 6 hours, 3 hours, 1 hour, 30 minutes..
-# TODO: ..according to the 'importance level'
+# TODO: /clear - delete old TODO's
 # TODO: make buttons when add, remove; help button
 # TODO: make scrollable list of events when /show
-# TODO: Do I need a MySQL DB?
 # TODO: deploy on Heroku (when all is ready)
+
+# ATTEMPT: were made attempts with atexit, signals and 'with' - doesn`t work
 
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
-echo_handler = MessageHandler(Filters.text, echo)
-dispatcher.add_handler(echo_handler)
+# echo_handler = MessageHandler(Filters.text, echo)
+# dispatcher.add_handler(echo_handler)
 
 help_handler = CommandHandler('help', help)
 dispatcher.add_handler(help_handler)
